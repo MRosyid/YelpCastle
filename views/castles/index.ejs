@@ -1,0 +1,39 @@
+<% layout('layouts/boilerplate')%>
+
+<div id="cluster-map"></div>
+<div class="container">
+    <h1>All Castles</h1>
+
+    <% for (let castle of castles){%>
+    <div class="card mb-3">
+        <div class="row">
+            <div class="col-md-4">
+                <%if(castle.images.length) {%>
+                <img class="img-responsive" width="100%" alt="" src="<%=castle.images[0].url%>">
+                <% }else {%>
+                <img class="img-fluid" alt=""
+                    src="https://images.unsplash.com/photo-1534450539339-6d1c81ad18e2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60">
+                <% } %>
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title"><%= castle.title %> </h5>
+                    <p class="card-text"><%= castle.description %></p>
+                    <p class="card-text">
+                        <small class="text-muted"><%= castle.location%></small>
+                    </p>
+                    <a class="btn btn-primary" href="/castles/<%=castle._id%>">View <%=castle.title%></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% }%>
+</div>
+
+<!-- Adding accessable variables for clusterMap.js -->
+<script>
+    const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+    const castles = { features: <%- JSON.stringify(castles) %>}
+</script>
+
+<script src="/javascripts/clusterMap.js"></script>
